@@ -1,0 +1,182 @@
+public class Studente {
+int matricola;
+String classe;
+boolean maggiorenne;
+public Studente() {
+matricola = 100;
+classe = "3IB";
+maggiorenne = false;
+
+}
+public Studente(int matricola, String classe, boolean maggiorenne) {
+
+this.matricola = matricola;
+this.classe = classe;
+this.maggiorenne = maggiorenne;
+
+}
+public int getMatricola() {
+return matricola;
+
+}
+public void setMatricola(int matricola) {
+this.matricola = matricola;
+
+}
+public String getClasse() {
+return classe;
+
+}
+public void setClasse(String classe) {
+this.classe = classe;
+
+}
+public boolean getMaggiorenne() {
+return maggiorenne;
+
+}
+
+public void setMaggiorenne(boolean maggiorenne) {
+this.maggiorenne = maggiorenne;
+
+}
+public String toString() {
+
+return "Studente [matricola=" + matricola + ", classe=" + classe + ", maggiorenne=" +
+
+maggiorenne + "]";
+}
+
+}
+
+
+
+
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+public class GUIstudente implements ActionListener{
+			Studente studente;
+		
+		
+		JFrame frame = new JFrame("STUDENTE");
+		Container container = new Container();
+		JPanel panel = new JPanel();
+		JLabel lblMa = new JLabel("Matricola:");
+		JLabel lblCla = new JLabel("Classe:");
+		JLabel lblMagg = new JLabel("L'alunno è maggiorenne?"); 
+		JLabel vuoto = new JLabel("");
+		
+		JTextField txtMa = new JTextField();
+		ButtonGroup BG1 = new ButtonGroup();
+		JRadioButton RB1 = new JRadioButton("Sì");
+		JRadioButton RB2 = new JRadioButton("No");
+		
+		JComboBox <String> cmbCla = new JComboBox <String>();
+		
+		JButton btnRegistra = new JButton("Registra");
+		JButton btnAnnulla = new JButton("Annulla");
+		
+		
+		GridLayout grid = new GridLayout(5,2,10,10);
+		
+		String[] cla = {"3IA", "3IB", "3IC"};
+		
+		public GUIstudente() {
+			
+			container = frame.getContentPane();
+			container.add(panel);
+			
+			panel.setLayout(grid);
+			
+			panel.add(lblMa);
+			panel.add(txtMa);
+			panel.add(lblCla);
+			panel.add(cmbCla);
+			panel.add(lblMagg);
+			panel.add(vuoto);
+			BG1.add(RB1);
+			BG1.add(RB2);
+			panel.add(RB1);
+			panel.add(RB2);
+			panel.add(btnRegistra);
+			panel.add(btnAnnulla);
+			
+			
+			
+			Font font= new Font("Times New Roman", Font.PLAIN, 20);
+			
+			
+			lblMa.setFont(font);
+			lblMagg.setFont(font);
+			lblCla.setFont(font);
+			cmbCla.setFont(font);
+			RB1.setFont(font);
+			RB1.setSelected(true);
+			RB2.setFont(font);
+			
+			cmbCla.setBackground(Color.decode("#fffdd0"));
+			txtMa.setBackground(Color.decode("#fffdd0"));
+			
+			btnRegistra.setBackground(Color.decode("#9c9c9c"));
+			btnAnnulla.setBackground(Color.decode("#9c9c9c"));
+			
+			frame.setSize(500, 500);
+			frame.setLocation(450, 200);
+			frame.setVisible(true);
+			
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			for(int i=0; i < cla.length; i++)
+				cmbCla.addItem(cla[i]);
+			
+			btnRegistra.setFont(font);
+			btnAnnulla.setFont(font);
+			
+			btnRegistra.addActionListener(this);
+			btnAnnulla.addActionListener(this);
+		}
+		
+		
+		
+		public void actionPerformed(ActionEvent event) {
+			String buttonName = event.getActionCommand();
+			if (buttonName.equals("Registra")) {
+				if(isNumber(txtMa.getText().trim()) && Double.parseDouble(txtMa.getText().trim()) > 0) {
+				studente= new Studente();
+				studente.setCla(cla[cmbCla.getSelectedIndex()]);
+				if(RB1.isSelected()){
+					studente.setMagg(true);
+				}else {
+					studente.setMagg(false);
+				}
+				studente.setMa(Double.parseDouble(txtMa.getText().trim()));
+				JOptionPane.showMessageDialog(null, "Matricola: " + studente.getMa() + "\nMaggiorenne: " + studente.getMagg() + "\nClasse: " + studente.getCla(), null, JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "Matricola indefinita!", "Errore", JOptionPane.ERROR_MESSAGE);
+					txtMa.setText("");
+					txtMa.requestFocus();
+				}
+			}else{
+				txtMa.setText("");
+				RB1.setSelected(true);
+				cmbCla.setSelectedIndex(0);
+				txtMa.requestFocus();
+			}
+		}
+			
+		public static boolean isNumber(String string){
+			try{
+				Integer.parseInt(string);
+				return true;
+			}	catch(Exception e){
+				return false;
+			}
+		}
+		public static void main(String[] args){
+			GUIstudente studente = new GUIstudente();
+		}
+	}
+
+
